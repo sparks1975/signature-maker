@@ -18,7 +18,7 @@ function App() {
         value={name}
         onChange={(e) => setName(e.target.value)}
       />
-      <div className="previews">
+      <div className="previews" style={{ paddingBlockStart: '24px' }}>
         {styles.map((style) => (
           <div key={style} className="preview">
             <p>{style.charAt(0).toUpperCase() + style.slice(1)}</p>

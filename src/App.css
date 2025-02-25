@@ -1,3 +1,7 @@
+* {
+  box-sizing: border-box;
+}
+
 .App {
   text-align: center;
   padding: 20px;
@@ -31,10 +35,41 @@ input {
   padding: 4px 16px;
   max-width: 1000px;
   width: 100%;
-  max-width: 800px;
+  max-width: 280px;
   height: 56px;
   border-radius: 4px;
   font-size: 16px;
+}
+
+@media (min-width: 569px) {
+  input {
+    max-width: 540px;
+  }
+}
+
+@media (min-width: 1025px) {
+  input {
+    max-width: 800px;
+  }
+}
+
+label {
+  width: 100%;
+  max-width: 280px;
+  text-align: left;
+  padding-block-start: 48px;
+}
+
+@media (min-width: 569px) {
+  label {
+    max-width: 540px;
+  }
+}
+
+@media (min-width: 1025px) {
+  label {
+    max-width: 800px;
+  }
 }
 
 .previews {

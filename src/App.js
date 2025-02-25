@@ -12,7 +12,9 @@ function App() {
         <img src="/signature-icon.svg" alt="signature icon" style={{ width: '32px', height: '32px', verticalAlign: 'middle', marginRight: '8px' }} />
         Signature Generator
       </h1>
+      <label htmlFor="name">Enter your name:</label>
       <input
+        id="name"
         type="text"
         placeholder="Enter your name"
         value={name}
@@ -21,7 +23,7 @@ function App() {
       <div className="previews" style={{ paddingBlockStart: '24px' }}>
         {styles.map((style) => (
           <div key={style} className="preview">
-            <p>{style.charAt(0).toUpperCase() + style.slice(1)}</p>
+            {/* <p>{style.charAt(0).toUpperCase() + style.slice(1)}</p> */}
             <SignatureCanvas name={name} style={style} />
           </div>
         ))}

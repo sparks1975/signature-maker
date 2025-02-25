@@ -17,51 +17,40 @@ const SignatureCanvas = ({ name, style }) => {
   const drawSignature = (ctx, name, style) => {
     ctx.fillStyle = 'black';
     let fontStyle;
-    let fontSize;
+    let fontSize = 30; // Reduced from 40 to fit "Casual"
 
     switch (style) {
       case 'elegant':
-        fontStyle = '40px "Mrs Saint Delafield"';
-        fontSize = 40;
+        fontStyle = '30px "Mrs Saint Delafield"';
         break;
       case 'bold':
-        fontStyle = '40px "Yesteryear"';
-        fontSize = 40;
+        fontStyle = '30px "Yesteryear"';
         break;
       case 'casual':
-        fontStyle = '40px "Borel"';
-        fontSize = 40;
+        fontStyle = '20px "Borel"';
         break;
-      case 'random':
       default:
-        const fonts = ['"Mrs Saint Delafield"', '"Yesteryear"', '"Borel"'];
-        const randomFont = fonts[Math.floor(Math.random() * fonts.length)];
-        fontSize = 30 + Math.random() * 20; // 30-50px
-        fontStyle = `${fontSize}px ${randomFont}`;
+        fontStyle = '30px "Mrs Saint Delafield"'; // Fallback
         break;
     }
 
     ctx.font = fontStyle;
     const textMetrics = ctx.measureText(name);
     const textWidth = textMetrics.width;
-    const textHeight = fontSize * 1.2; // Approximate height
+    const textHeight = fontSize * 1.2;
     const x = (ctx.canvas.width - textWidth) / 2;
-    const y = (ctx.canvas.height + textHeight / 2) / 2; // Center vertically
+    const y = (ctx.canvas.height + textHeight / 2) / 2;
 
-    // Apply random offset for 'random' style
-    const finalX = style === 'random' ? x + (Math.random() * 20 - 10) : x;
-    const finalY = style === 'random' ? y + (Math.random() * 20 - 10) : y;
-
-    ctx.fillText(name, finalX, finalY);
-    return { x: finalX, y: finalY, textWidth, textHeight, fontSize, fontStyle };
+    ctx.fillText(name, x, y);
+    return { x, y, textWidth, textHeight, fontSize, fontStyle };
   };
 
   const download = (format) => {
-    if (!name) return; // Prevent download if no name
+    if (!name) return;
 
     const canvas = canvasRef.current;
     const ctx = canvas.getContext('2d');
-    const { textWidth, textHeight, fontStyle } = drawSignature(ctx, name, style);
+    const { x, y, textWidth, textHeight, fontStyle } = drawSignature(ctx, name, style);
 
     const exportCanvas = document.createElement('canvas');
     const padding = 20;
@@ -73,39 +62,29 @@ const SignatureCanvas = ({ name, style }) => {
     exportCtx.fillText(name, padding, padding + textHeight / 1.2);
 
     const link = document.createElement('a');
-    link.download = `${name || 'signature'}.${format}`;
-    link.href = exportCanvas.toDataURL(`image/${format}`);
+    link.download = `${name || 'signature'}.${format.toLowerCase()}`;
+    link.href = exportCanvas.toDataURL(`image/${format.toLowerCase()}`);
     link.click();
   };
 
   const downloadSvg = async (name, style) => {
-    if (!name) return; // Prevent download if no name
+    if (!name) return;
 
     let fontPath;
-    let fontSize;
+    let fontSize = 30; // Match the reduced size
 
     switch (style) {
       case 'elegant':
         fontPath = '/fonts/MrsSaintDelafield-Regular.ttf';
-        fontSize = 40;
         break;
       case 'bold':
         fontPath = '/fonts/Yesteryear-Regular.ttf';
-        fontSize = 40;
         break;
       case 'casual':
         fontPath = '/fonts/Borel-Regular.ttf';
-        fontSize = 40;
         break;
-      case 'random':
       default:
-        const fonts = [
-          '/fonts/MrsSaintDelafield-Regular.ttf',
-          '/fonts/Yesteryear-Regular.ttf',
-          '/fonts/Borel-Regular.ttf',
-        ];
-        fontPath = fonts[Math.floor(Math.random() * fonts.length)];
-        fontSize = 30 + Math.random() * 20;
+        fontPath = '/fonts/MrsSaintDelafield-Regular.ttf'; // Fallback
         break;
     }
 
@@ -121,10 +100,9 @@ const SignatureCanvas = ({ name, style }) => {
       const padding = 20;
       const svgWidth = textWidth + padding * 2;
       const svgHeight = textHeight + padding * 2;
-      const x = style === 'random' ? padding + (Math.random() * 20 - 10) : padding;
-      const y = padding + textHeight / 1.2 + (style === 'random' ? Math.random() * 20 - 10 : 0);
+      const x = padding;
+      const y = padding + textHeight / 1.2;
 
-      // Use x and y explicitly to satisfy linter
       const path = font.getPath(name, x, y, fontSize);
       const pathData = path.toPathData(2);
 
@@ -148,11 +126,11 @@ const SignatureCanvas = ({ name, style }) => {
 
   return (
     <div>
-      <canvas ref={canvasRef} width={400} height={200} />
-      <div style={{ paddingBlockStart: '24px', display: 'flex', gap: '24px' }}>
-        <button onClick={() => download('png')}>Download PNG</button>
-        <button onClick={() => download('jpg')}>Download JPG</button>
-        <button onClick={() => downloadSvg(name, style)}>Download SVG</button>
+      <canvas ref={canvasRef} width={300} height={150} />
+      <div style={{ paddingBlockStart: '24px', display: 'flex', gap: '16px', flexWrap: 'wrap', justifyContent: 'center', alignItems: 'center' }}>
+        <button onClick={() => download('PNG')}>PNG</button>
+        <button onClick={() => download('JPG')}>JPG</button>
+        <button onClick={() => downloadSvg(name, style)}>SVG</button>
       </div>
     </div>
   );

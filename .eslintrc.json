@@ -1,0 +1,5 @@
+{
+  "rules": {
+    "no-unused-vars": ["warn", { "vars": "local", "args": "none" }]
+  }
+}

@@ -4,11 +4,14 @@ import './App.css';
 
 function App() {
   const [name, setName] = useState('');
-  const styles = ['elegant', 'bold', 'casual']; // Removed 'random'
+  const styles = ['elegant', 'bold', 'casual'];
 
   return (
     <div className="App">
-      <h1>Signature Generator</h1>
+      <h1>
+        <img src="/signature-icon.svg" alt="signature icon" style={{ width: '32px', height: '32px', verticalAlign: 'middle', marginRight: '8px' }} />
+        Signature Generator
+      </h1>
       <input
         type="text"
         placeholder="Enter your name"

@@ -14,23 +14,23 @@ const SignatureCanvas = ({ name, style }) => {
     }
   }, [name, style]);
 
-  const drawSignature = (ctx, name, style) => {
-    ctx.fillStyle = 'black';
+  const drawSignature = (ctx, name, style, isDownload = false) => {
+    ctx.fillStyle = isDownload ? 'black' : 'white'; // White for preview, black for download
     let fontStyle;
-    let fontSize = 30; // Reduced from 40 to fit "Casual"
+    let fontSize = 30;
 
     switch (style) {
       case 'elegant':
-        fontStyle = '30px "Mrs Saint Delafield"';
+        fontStyle = '40px "Mrs Saint Delafield"';
         break;
       case 'bold':
         fontStyle = '30px "Yesteryear"';
         break;
       case 'casual':
-        fontStyle = '20px "Borel"';
+        fontStyle = '24px "Borel"';
         break;
       default:
-        fontStyle = '30px "Mrs Saint Delafield"'; // Fallback
+        fontStyle = '30px "Mrs Saint Delafield"';
         break;
     }
 
@@ -50,14 +50,17 @@ const SignatureCanvas = ({ name, style }) => {
 
     const canvas = canvasRef.current;
     const ctx = canvas.getContext('2d');
-    const { x, y, textWidth, textHeight, fontStyle } = drawSignature(ctx, name, style);
+    // Redraw with white for preview consistency
+    drawSignature(ctx, name, style, false);
 
+    // Create export canvas with black text
+    const { x, y, textWidth, textHeight, fontStyle } = drawSignature(ctx, name, style, true); // Get metrics
     const exportCanvas = document.createElement('canvas');
     const padding = 20;
     exportCanvas.width = textWidth + padding * 2;
     exportCanvas.height = textHeight + padding * 2;
     const exportCtx = exportCanvas.getContext('2d');
-    exportCtx.fillStyle = 'black';
+    exportCtx.fillStyle = 'black'; // Explicitly black for download
     exportCtx.font = fontStyle;
     exportCtx.fillText(name, padding, padding + textHeight / 1.2);
 
@@ -71,7 +74,7 @@ const SignatureCanvas = ({ name, style }) => {
     if (!name) return;
 
     let fontPath;
-    let fontSize = 30; // Match the reduced size
+    let fontSize = 30;
 
     switch (style) {
       case 'elegant':
@@ -84,7 +87,7 @@ const SignatureCanvas = ({ name, style }) => {
         fontPath = '/fonts/Borel-Regular.ttf';
         break;
       default:
-        fontPath = '/fonts/MrsSaintDelafield-Regular.ttf'; // Fallback
+        fontPath = '/fonts/MrsSaintDelafield-Regular.ttf';
         break;
     }
 
@@ -108,7 +111,7 @@ const SignatureCanvas = ({ name, style }) => {
 
       const svg = `
         <svg width="${svgWidth}" height="${svgHeight}" xmlns="http://www.w3.org/2000/svg">
-          <path d="${pathData}" fill="black"/>
+          <path d="${pathData}" fill="black"/> <!-- Black for download -->
         </svg>
       `;
       const blob = new Blob([svg], { type: 'image/svg+xml' });

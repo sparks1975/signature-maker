@@ -32,6 +32,18 @@ const SignatureCanvas = ({ name, style }) => {
         fontSize = 24;
         fontStyle = '24px "Borel"';
         break;
+      case 'ballet':
+        fontSize = 32;
+        fontStyle = '32px "Ballet"';
+        break;
+      case 'alex':
+        fontSize = 32;
+        fontStyle = '32px "Alex Brush"';
+        break;
+      case 'meddon':
+        fontSize = 24;
+        fontStyle = '24px "Meddon"';
+        break;
       default:
         fontSize = 30;
         fontStyle = '30px "Mrs Saint Delafield"';
@@ -90,6 +102,18 @@ const SignatureCanvas = ({ name, style }) => {
       case 'casual':
         fontPath = '/fonts/Borel-Regular.ttf';
         fontSize = 24;
+        break;
+      case 'ballet':
+        fontPath = '/fonts/Ballet-Regular.ttf';
+        fontSize = 40;
+        break;
+      case 'alex':
+        fontPath = '/fonts/AlexBrush-Regular.ttf';
+        fontSize = 30;
+        break;
+      case 'meddon':
+        fontPath = '/fonts/Meddon-Regular.ttf';
+        fontSize = 30;
         break;
       default:
         fontPath = '/fonts/MrsSaintDelafield-Regular.ttf';

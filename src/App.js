@@ -4,7 +4,7 @@ import './App.css';
 
 function App() {
   const [name, setName] = useState('');
-  const styles = ['elegant', 'bold', 'casual'];
+  const styles = ['elegant', 'bold', 'casual', 'ballet', 'alex', 'meddon'];
 
   return (
     <div className="App">
@@ -12,6 +12,7 @@ function App() {
         <img src="/signature-icon.svg" alt="signature icon" style={{ width: '32px', height: '32px', verticalAlign: 'middle', marginRight: '8px' }} />
         Signature Generator
       </h1>
+      <p>Create and download your signature to use on various online applications.</p>
       <label htmlFor="name">Enter your name:</label>
       <input
         id="name"

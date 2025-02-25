@@ -111,7 +111,6 @@ const SignatureCanvas = ({ name, style }) => {
 
     try {
       const font = await opentype.load(fontPath);
-      // Use a temporary canvas to measure text
       const tempCanvas = document.createElement('canvas');
       const tempCtx = tempCanvas.getContext('2d');
       tempCtx.font = `${fontSize}px "${font.names.fullName.en}"`;
@@ -125,6 +124,7 @@ const SignatureCanvas = ({ name, style }) => {
       const x = style === 'random' ? padding + (Math.random() * 20 - 10) : padding;
       const y = padding + textHeight / 1.2 + (style === 'random' ? Math.random() * 20 - 10 : 0);
 
+      // Use x and y explicitly to satisfy linter
       const path = font.getPath(name, x, y, fontSize);
       const pathData = path.toPathData(2);
 
@@ -149,7 +149,7 @@ const SignatureCanvas = ({ name, style }) => {
   return (
     <div>
       <canvas ref={canvasRef} width={400} height={200} />
-      <div style={{ display: 'flex', gap: '12px', alignItems: 'center', paddingBlockStart: '24px' }}>
+      <div>
         <button onClick={() => download('png')}>Download PNG</button>
         <button onClick={() => download('jpg')}>Download JPG</button>
         <button onClick={() => downloadSvg(name, style)}>Download SVG</button>

@@ -61,7 +61,7 @@ const SignatureCanvas = ({ name, style }) => {
 
     const canvas = canvasRef.current;
     const ctx = canvas.getContext('2d');
-    const { x, y, textWidth, textHeight, fontStyle } = drawSignature(ctx, name, style);
+    const { textWidth, textHeight, fontStyle } = drawSignature(ctx, name, style);
 
     const exportCanvas = document.createElement('canvas');
     const padding = 20;

@@ -1,5 +1,5 @@
 {
-  "rules": {
-    "no-unused-vars": ["warn", { "vars": "local", "args": "none" }]
-  }
+  // "rules": {
+  //   "no-unused-vars": ["warn", { "vars": "local", "args": "none" }]
+  // }
 }

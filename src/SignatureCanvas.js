@@ -149,7 +149,7 @@ const SignatureCanvas = ({ name, style }) => {
   return (
     <div>
       <canvas ref={canvasRef} width={400} height={200} />
-      <div>
+      <div style={{ paddingBlockStart: '24px', display: 'flex', gap: '24px' }}>
         <button onClick={() => download('png')}>Download PNG</button>
         <button onClick={() => download('jpg')}>Download JPG</button>
         <button onClick={() => downloadSvg(name, style)}>Download SVG</button>

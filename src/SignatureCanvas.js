@@ -25,7 +25,7 @@ const SignatureCanvas = ({ name, style }) => {
         fontStyle = `${fontSize * scaleFactor}px "Mrs Saint Delafield"`;
         break;
       case 'bold':
-        fontSize = 30;
+        fontSize = 36;
         fontStyle = `${fontSize * scaleFactor}px "Yesteryear"`;
         break;
       case 'casual':
@@ -51,6 +51,10 @@ const SignatureCanvas = ({ name, style }) => {
       case 'engagement':
         fontSize = 42;
         fontStyle = `${fontSize * scaleFactor}px "Engagement"`;
+        break;
+      case 'aguafina':
+        fontSize = 36;
+        fontStyle = `${fontSize * scaleFactor}px "Aguafina Script"`;
         break;
       default:
         fontSize = 30;
@@ -139,6 +143,10 @@ const SignatureCanvas = ({ name, style }) => {
       case 'engagement':
         fontPath = '/fonts/Engagement-Regular.ttf';
         fontSize = 42 * 2;
+        break;
+      case 'aguafina':
+        fontPath = '/fonts/AguafinaScript-Regular.ttf';
+        fontSize = 36 * 2;
         break;
       default:
         fontPath = '/fonts/MrsSaintDelafield-Regular.ttf';

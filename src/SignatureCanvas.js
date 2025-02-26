@@ -44,6 +44,18 @@ const SignatureCanvas = ({ name, style }) => {
         fontSize = 24;
         fontStyle = '24px "Meddon"';
         break;
+      case 'windsong':
+        fontSize = 24;
+        fontStyle = '24px "WindSong"';
+        break;
+      case 'aguafina':
+        fontSize = 32;
+        fontStyle = '32px "Aguafina Script"';
+        break;
+      case 'engagement':
+        fontSize = 42;
+        fontStyle = '42px "Engagement"';
+        break;
       default:
         fontSize = 30;
         fontStyle = '30px "Mrs Saint Delafield"';
@@ -66,9 +78,10 @@ const SignatureCanvas = ({ name, style }) => {
 
     const canvas = canvasRef.current;
     const ctx = canvas.getContext('2d');
-    drawSignature(ctx, name, style, false);
+    // Draw the preview with white text and get metrics
+    const { textWidth, textHeight, fontStyle } = drawSignature(ctx, name, style, false);
 
-    const { x, y, textWidth, textHeight, fontStyle } = drawSignature(ctx, name, style, true);
+    // Create export canvas with black text without affecting the main canvas
     const exportCanvas = document.createElement('canvas');
     const padding = 20;
     exportCanvas.width = textWidth + padding * 2;
@@ -105,15 +118,27 @@ const SignatureCanvas = ({ name, style }) => {
         break;
       case 'ballet':
         fontPath = '/fonts/Ballet-Regular.ttf';
-        fontSize = 40;
+        fontSize = 32; // Fixed to match preview
         break;
       case 'alex':
         fontPath = '/fonts/AlexBrush-Regular.ttf';
-        fontSize = 30;
+        fontSize = 32; // Fixed to match preview
         break;
       case 'meddon':
         fontPath = '/fonts/Meddon-Regular.ttf';
-        fontSize = 30;
+        fontSize = 24; // Fixed to match preview
+        break;
+      case 'windsong':
+        fontPath = '/fonts/WindSong-Regular.ttf';
+        fontSize = 24; // Fixed to match preview
+        break;
+      case 'engagement':
+        fontPath = '/fonts/Engagement-Regular.ttf';
+        fontSize = 42; // Fixed to match preview
+        break;
+      case 'aguafina':
+        fontPath = '/fonts/AguafinaScript-Regular.ttf';
+        fontSize = 24; // Fixed to match preview
         break;
       default:
         fontPath = '/fonts/MrsSaintDelafield-Regular.ttf';

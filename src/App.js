@@ -4,7 +4,7 @@ import './App.css';
 
 function App() {
   const [name, setName] = useState('');
-  const styles = ['elegant', 'bold', 'casual', 'ballet', 'alex', 'meddon'];
+  const styles = ['elegant', 'bold', 'casual', 'ballet', 'alex', 'meddon', 'windsong', 'engagement', 'aguafina'];
 
   return (
     <div className="App">

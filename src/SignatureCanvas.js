@@ -14,7 +14,7 @@ const SignatureCanvas = ({ name, style }) => {
     }
   }, [name, style]);
 
-  const drawSignature = (ctx, name, style, isDownload = false) => {
+  const drawSignature = (ctx, name, style, isDownload = false, scaleFactor = 1) => {
     ctx.fillStyle = isDownload ? 'black' : 'white';
     let fontStyle;
     let fontSize;
@@ -22,50 +22,46 @@ const SignatureCanvas = ({ name, style }) => {
     switch (style) {
       case 'elegant':
         fontSize = 40;
-        fontStyle = '40px "Mrs Saint Delafield"';
+        fontStyle = `${fontSize * scaleFactor}px "Mrs Saint Delafield"`;
         break;
       case 'bold':
         fontSize = 30;
-        fontStyle = '30px "Yesteryear"';
+        fontStyle = `${fontSize * scaleFactor}px "Yesteryear"`;
         break;
       case 'casual':
         fontSize = 24;
-        fontStyle = '24px "Borel"';
+        fontStyle = `${fontSize * scaleFactor}px "Borel"`;
         break;
       case 'ballet':
         fontSize = 32;
-        fontStyle = '32px "Ballet"';
+        fontStyle = `${fontSize * scaleFactor}px "Ballet"`;
         break;
       case 'alex':
         fontSize = 32;
-        fontStyle = '32px "Alex Brush"';
+        fontStyle = `${fontSize * scaleFactor}px "Alex Brush"`;
         break;
       case 'meddon':
         fontSize = 24;
-        fontStyle = '24px "Meddon"';
+        fontStyle = `${fontSize * scaleFactor}px "Meddon"`;
         break;
       case 'windsong':
         fontSize = 24;
-        fontStyle = '24px "WindSong"';
-        break;
-      case 'aguafina':
-        fontSize = 32;
-        fontStyle = '32px "Aguafina Script"';
+        fontStyle = `${fontSize * scaleFactor}px "WindSong"`;
         break;
       case 'engagement':
         fontSize = 42;
-        fontStyle = '42px "Engagement"';
+        fontStyle = `${fontSize * scaleFactor}px "Engagement"`;
         break;
       default:
         fontSize = 30;
-        fontStyle = '30px "Mrs Saint Delafield"';
+        fontStyle = `${fontSize * scaleFactor}px "Mrs Saint Delafield"`;
         break;
     }
 
     ctx.font = fontStyle;
     const textMetrics = ctx.measureText(name);
     const textWidth = textMetrics.width;
-    const textHeight = fontSize * 1.2;
+    const textHeight = fontSize * scaleFactor * 1.2;
     const x = (ctx.canvas.width - textWidth) / 2;
     const y = (ctx.canvas.height + textHeight / 2) / 2;
 
@@ -78,18 +74,26 @@ const SignatureCanvas = ({ name, style }) => {
 
     const canvas = canvasRef.current;
     const ctx = canvas.getContext('2d');
-    // Draw the preview with white text and get metrics
-    const { textWidth, textHeight, fontStyle } = drawSignature(ctx, name, style, false);
+    // Draw preview with original size
+    const { fontSize: baseFontSize, fontStyle: baseFontStyle } = drawSignature(ctx, name, style, false, 1);
 
-    // Create export canvas with black text without affecting the main canvas
+    // Create export canvas with doubled font size
     const exportCanvas = document.createElement('canvas');
     const padding = 20;
-    exportCanvas.width = textWidth + padding * 2;
-    exportCanvas.height = textHeight + padding * 2;
+    const exportFontSize = baseFontSize * 2;
+    const exportFontStyle = baseFontStyle.replace(/\d+px/, `${exportFontSize}px`);
+    exportCanvas.width = ctx.measureText(name).width + padding * 2; // Measure with preview size (will adjust below)
+    exportCanvas.height = baseFontSize * 2 * 1.2 + padding * 2; // Rough estimate, refine below
     const exportCtx = exportCanvas.getContext('2d');
     exportCtx.fillStyle = 'black';
-    exportCtx.font = fontStyle;
-    exportCtx.fillText(name, padding, padding + textHeight / 1.2);
+    exportCtx.font = exportFontStyle;
+    const exportTextWidth = exportCtx.measureText(name).width;
+    const exportTextHeight = exportFontSize * 1.2;
+    exportCanvas.width = exportTextWidth + padding * 2; // Adjust width after measuring
+    exportCanvas.height = exportTextHeight + padding * 2; // Adjust height
+    exportCtx.fillStyle = 'black'; // Re-set after resizing
+    exportCtx.font = exportFontStyle; // Re-set after resizing
+    exportCtx.fillText(name, padding, padding + exportTextHeight / 1.2);
 
     const link = document.createElement('a');
     link.download = `${name || 'signature'}.${format.toLowerCase()}`;
@@ -106,43 +110,39 @@ const SignatureCanvas = ({ name, style }) => {
     switch (style) {
       case 'elegant':
         fontPath = '/fonts/MrsSaintDelafield-Regular.ttf';
-        fontSize = 40;
+        fontSize = 40 * 2; // Double the preview size
         break;
       case 'bold':
         fontPath = '/fonts/Yesteryear-Regular.ttf';
-        fontSize = 30;
+        fontSize = 30 * 2;
         break;
       case 'casual':
         fontPath = '/fonts/Borel-Regular.ttf';
-        fontSize = 24;
+        fontSize = 24 * 2;
         break;
       case 'ballet':
         fontPath = '/fonts/Ballet-Regular.ttf';
-        fontSize = 32; // Fixed to match preview
+        fontSize = 32 * 2;
         break;
       case 'alex':
         fontPath = '/fonts/AlexBrush-Regular.ttf';
-        fontSize = 32; // Fixed to match preview
+        fontSize = 32 * 2;
         break;
       case 'meddon':
         fontPath = '/fonts/Meddon-Regular.ttf';
-        fontSize = 24; // Fixed to match preview
+        fontSize = 24 * 2;
         break;
       case 'windsong':
         fontPath = '/fonts/WindSong-Regular.ttf';
-        fontSize = 24; // Fixed to match preview
+        fontSize = 24 * 2;
         break;
       case 'engagement':
         fontPath = '/fonts/Engagement-Regular.ttf';
-        fontSize = 42; // Fixed to match preview
-        break;
-      case 'aguafina':
-        fontPath = '/fonts/AguafinaScript-Regular.ttf';
-        fontSize = 24; // Fixed to match preview
+        fontSize = 42 * 2;
         break;
       default:
         fontPath = '/fonts/MrsSaintDelafield-Regular.ttf';
-        fontSize = 30;
+        fontSize = 30 * 2;
         break;
     }
 
